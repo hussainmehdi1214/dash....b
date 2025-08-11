@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard</title>
+<style>
+  /* Base page */
+  :root{
+    --bg: rgb(0,43,43);
+    --sidebar: rgb(1,1,43);
+    --card: rgb(17,116,116);
+    --accent: #0000ff;
+    --muted: #afafaf;
+  }
+
+  *{box-sizing: border-box;}
+  body{
+    margin:0;
+    background: var(--bg);
+    display:flex;
+    justify-content:center; /* center horizontally */
+    align-items:flex-start;
+    min-height:100vh;
+    font-family: Inter, system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    color:#fff;
+  }
+
+  /* container that holds sidebar + main */
+  .container{
+    display:flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1600px;
+    padding: 20px;
+    align-items:flex-start;
+  }
+
+  /* SIDEBAR */
+  .box{
+    width: 250px;
+    background: var(--sidebar);
+    border-radius:8px;
+    padding: 16px 12px;
+    flex-shrink: 0;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-bottom:6px;
+  }
+  .brand img{width:56px; height:auto;}
+  .brand h1{
+    margin:0;
+    font-size:20px;
+    color:#fff;
+    line-height:1;
+  }
+  .brand h1 span{ color: rgb(236,253,0); font-size:32px; text-shadow: 3px 3px 6px rgb(9,101,124); }
+
+  .divider{ color: var(--accent); text-align:center; margin:10px 0; }
+
+  /* sidebar nav items */
+  .pictures{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-top:8px;
+  }
+  .pictures .nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px;
+    border-radius:6px;
+    cursor:pointer;
+    transition: background .15s, transform .08s;
+  }
+  .pictures .nav-item img{ width:28px; height:auto; flex-shrink:0; }
+  .pictures .nav-item p{ margin:0; font-size:16px; color:#fff; }
+  .pictures .nav-item:hover{ background: rgba(255,255,255,0.03); transform: translateX(3px); }
+
+  /* MAIN CONTENT */
+  .main-content{
+    flex:1;
+    max-width: 1350px;
+  }
+  .header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+  }
+  .header-left h1{ margin:0; font-size:22px; color:#fff; }
+  .header-left h1 span{ color: rgb(236,253,0); font-size:48px; text-shadow:3px 3px 8px rgb(9,101,124); vertical-align:middle; }
+
+  .header-right{ display:flex; gap:12px; align-items:center; }
+  .header-right input{ padding:8px 10px; border-radius:6px; border: none; outline:none; }
+
+  hr.rule{ border:1px solid var(--accent); margin:12px 0; }
+
+  h2{ font-size:26px; margin:14px 0 4px 0; padding-left:6px; color:#fff; }
+  p.lead{ color:var(--muted); margin:0 0 12px 6px; }
+
+  .button{ display:flex; gap:12px; flex-wrap:wrap; padding-left:6px; }
+  .button button{
+    background:#2828ff; color:#fff; padding:10px 18px; border:none; border-radius:6px; cursor:pointer;
+  }
+
+  /* cards row */
+  .detail{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    padding-top:10px;
+  }
+  .box2{
+    flex: 1 1 320px;
+    min-width:220px;
+    height:100px;
+    background:var(--card);
+    border-radius:10px;
+    border:1px solid var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px;
+    color:#fff;
+  }
+  .box2 img{ width:64px; height:auto; }
+
+  .dell{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .box3{
+    flex:1 1 600px;
+    min-width:260px;
+    height:200px;
+    background:var(--card);
+    border-radius:10px;
+    border:1px solid var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:14px;
+    color:#fff;
+  }
+
+  /* table */
+  .dee table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:18px;
+    background: rgba(255,255,255,0.02);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .dee th, .dee td{
+    padding:10px;
+    text-align:left;
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    color:#fff;
+  }
+  .dee thead tr{ background: var(--card); color:#fff; }
+
+  /* products row */
+  .hp{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    margin-top:16px;
+  }
+  .box4{
+    flex:1 1 300px;
+    min-width:200px;
+    height:200px;
+    border-radius:10px;
+    background:#1a1a1a;
+    padding:14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border:1px solid var(--accent);
+  }
+  .box4 img{ width:160px; height:auto; object-fit:contain; }
+
+  footer{ text-align:center; color:var(--muted); margin:18px 0 10px 0; }
+
+  /* hover selector fix */
+  .pictures img:hover{ transform:scale(1.05); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1100px){
+    .box{ width:200px; }
+    .header-left h1 span{ font-size:42px; }
+    .box2{ min-width:240px; }
+  }
+
+  /* tablet / small laptop */
+  @media (max-width: 820px){
+    .container{ padding:14px; gap:12px; }
+    .box{ width:220px; }
+    .brand h1{ font-size:18px; }
+    .header-left h1{ font-size:20px; }
+    .box4 img{ width:140px; }
+  }
+
+  /* MOBILE: stack everything vertically, sidebar becomes horizontal top bar */
+  @media (max-width: 600px){
+    body{ align-items:flex-start; }
+    .container{ flex-direction:column; padding:10px; gap:12px; max-width:980px; }
+
+    /* make sidebar full-width and nav horizontal */
+    .box{
+      width:100%;
+      display:flex;
+      flex-direction:row;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px;
+    }
+    .brand{ gap:8px; }
+    .pictures{
+      flex-direction:row;
+      gap:8px;
+      align-items:center;
+      margin:0;
+      padding-left:6px;
+    }
+    .pictures .nav-item{ padding:6px 8px; min-width:0; border-radius:8px; }
+    .pictures .nav-item p{ display:none; } /* show icons only on very small screens */
+    .pictures .nav-item img{ width:28px; }
+
+    /* main content adjustments */
+    .header{ flex-direction:column; align-items:flex-start; gap:8px; }
+    .header-right{ width:100%; display:flex; justify-content:flex-end; }
+    .header-right img{ width:44px; height:auto; }
+
+    .detail, .dell, .hp{ flex-direction:column; align-items:stretch; }
+    .box2, .box3, .box4{ width:100%; min-width:0; margin:0; }
+    .box4{ flex-direction:row; justify-content:space-between; }
+    .box4 img{ width:120px; }
+
+    .button{ flex-direction:column; width:100%; }
+    .button button{ width:100%; }
+
+    .dee table{ font-size:13px; }
+    .brand h1 span{ font-size:36px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <aside class="box">
+      <div class="brand">
+        <img src="m.png" alt="logo" />
+        <h1>Mehdi <span>P</span>hones</h1>
+      </div>
+
+      <div class="divider">------------------------</div>
+
+      <nav class="pictures" aria-label="sidebar">
+        <div class="nav-item"><img src="dashboard.png" alt=""><p>Dashboard</p></div>
+        <div class="nav-item"><img src="order.png" alt=""><p>Orders</p></div>
+        <div class="nav-item"><img src="products.png" alt=""><p>Products</p></div>
+        <div class="nav-item"><img src="customer2.png" alt=""><p>Customers</p></div>
+        <div class="nav-item"><img src="report.png" alt=""><p>Reports</p></div>
+        <div class="nav-item"><img src="settings.png" alt=""><p>Settings</p></div>
+      </nav>
+
+      <div class="divider">------------------------</div>
+    </aside>
+
+    <main class="main-content">
+      <hr class="rule">
+
+      <div class="header">
+        <div class="header-left">
+          <h1>Mehdi <span>P</span>hones</h1>
+        </div>
+
+        <div class="header-right">
+          <input type="text" placeholder="Search..." />
+          <div style="padding-left:6px;">🛒🔔</div>
+          <img src="profile.png" alt="profile" style="width:64px;">
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <h2>Admin Dashboard</h2>
+      <p class="lead">Manage your store effectively</p>
+
+      <div class="button">
+        <button>Add Product</button>
+        <button>Generate Report</button>
+      </div>
+
+      <div class="detail">
+        <div class="box2">
+          <div>
+            <p style="margin:0; font-weight:600;">Total Orders</p>
+            <p style="margin:6px 0 0 0;">(1,245)</p>
+          </div>
+          <img src="receipt.png" alt="">
+        </div>
+
+        <div class="box2">
+          <div>
+            <p style="margin:0; font-weight:600;">Total Revenue</p>
+            <p style="margin:6px 0 0 0;">($58,000)</p>
+          </div>
+          <img src="revenue-growth.png" alt="">
+        </div>
+
+        <div class="box2">
+          <div>
+            <p style="margin:0; font-weight:600;">New Customers</p>
+            <p style="margin:6px 0 0 0;">(350)</p>
+          </div>
+          <img src="customer.png" alt="">
+        </div>
+
+        <div class="box2">
+          <div>
+            <p style="margin:0; font-weight:600;">Products in Stock</p>
+            <p style="margin:6px 0 0 0;">(2,500)</p>
+          </div>
+          <img src="features (1).png" alt="">
+        </div>
+      </div>
+
+      <div class="dell">
+        <div class="box3">Placeholder for Sales Chart</div>
+        <div class="box3">Placeholder for Traffic Source Pie Chart</div>
+      </div>
+
+      <div class="dee">
+        <table>
+          <thead>
+            <tr>
+              <th>Order ID</th><th>Customer</th><th>Product</th><th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#1234</td><td>Ali</td><td>Smartphone, Laptop, Camera</td><td>2025-08-08</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="hp">
+        <div class="box4">
+          <div>
+            <p style="margin:0;font-weight:600">Smartphone</p>
+            <p style="margin:6px 0 0 0">Rs/15k</p>
+            <p style="margin:6px 0 0 0">Stock : 100</p>
+          </div>
+          <img src="smartphone.png" alt="">
+        </div>
+
+        <div class="box4">
+          <div>
+            <p style="margin:0;font-weight:600">Laptop</p>
+            <p style="margin:6px 0 0 0">Rs/20k</p>
+            <p style="margin:6px 0 0 0">Stock : 50</p>
+          </div>
+          <img src="laptop.png" alt="">
+        </div>
+
+        <div class="box4">
+          <div>
+            <p style="margin:0;font-weight:600">Camera</p>
+            <p style="margin:6px 0 0 0">Rs/45k</p>
+            <p style="margin:6px 0 0 0">Stock : 30</p>
+          </div>
+          <img src="camera.png" alt="">
+        </div>
+      </div>
+
+      <footer>Built with Tailwind CSS – Mehdiphones</footer>
+    </main>
+  </div>
+</body>
+</html>
